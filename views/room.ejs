@@ -35,11 +35,16 @@
 	  var stopButton = document.getElementById('stop');
 	  var resultElement = document.getElementById('result');
 	  var recognition = new webkitSpeechRecognition();
+	  var conversationDictObject = [];
+
 	  recognition.lang = window.navigator.language;
 	  recognition.interimResults = false;
 	  recognition.continuous = true;
 	  startButton.addEventListener('click', () => { recognition.start(); });
-	  stopButton.addEventListener('click', () => { recognition.stop(); });
+	  stopButton.addEventListener('click', () => { 
+		 var json = { ... conversationDictObject};
+		 console.log(json) 
+		 recognition.stop(); });
 	  recognition.addEventListener('result', (event) => {
 	  console.log(event.results[event.results.length - 1][0].confidence)
 		  if (event.results[event.results.length - 1][0].confidence >= 0.77){
