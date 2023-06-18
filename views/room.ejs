@@ -10,6 +10,7 @@
   <script defer src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
   <script src="/socket.io/socket.io.js" defer></script>
   <script src="script.js" defer></script>
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
   <title>Document</title>
   <style>
     #video-grid {
@@ -29,6 +30,7 @@
   <div id="video-grid"></div>
   <button id = "start">Start</button>
   <button id = "stop">Stop</button>
+  <div id="completed"></div>
   <textarea id = "result" rows="8" cols="80"></textarea> <br>
   <script type="text/javascript">
 	  var startButton = document.getElementById('start');
@@ -43,7 +45,20 @@
 	  startButton.addEventListener('click', () => { recognition.start(); });
 	  stopButton.addEventListener('click', () => { 
 		 var json = { ... conversationDictObject};
-		 console.log(json) 
+		 console.log(json)
+		 $.ajax({
+                                                type:'post',
+                                                url:'/api/chat-gpt',
+                                                data: json,
+                                                dataType:'json',
+                                                error:function(){
+                                                        console.log('error');
+                                                },
+                                                success:function(data){
+							console.log("successed")
+                                                        $('#completed').append("ok!!!! ");
+                                                }
+                                        });
 		 recognition.stop(); });
 	  recognition.addEventListener('result', (event) => {
 	  console.log(event.results[event.results.length - 1][0].confidence)
