@@ -47,8 +47,8 @@
 		 var json = { ... conversationDictObject};
 		 console.log(json)
 		 $.ajax({
-                                                type:'post',
-                                                url:'/api/chat-gpt',
+                                                type:'POST',
+                                                url:'http://18.183.168.176:8080/summary',
                                                 data: json,
                                                 dataType:'json',
                                                 error:function(){
