@@ -32,10 +32,13 @@
   <button id = "stop">Stop</button>
   <div id="completed"></div>
   <textarea id = "result" rows="8" cols="80"></textarea> <br>
+  <div id="summary_test">summary</div>
+  <textarea id = "result2" rows="8" cols="80"></textarea> <br>
   <script type="text/javascript">
 	  var startButton = document.getElementById('start');
 	  var stopButton = document.getElementById('stop');
 	  var resultElement = document.getElementById('result');
+	  var result2 = document.getElementById('result2');
 	  var recognition = new webkitSpeechRecognition();
 	  var conversationDictObject = [];
 
@@ -51,12 +54,15 @@
                                                 url:'http://18.183.168.176:8080/summary',
                                                 data: json,
                                                 dataType:'json',
+						contentType: 'application/json',
+			 header: {'Access-Control-Allow-Origin':'*'},
                                                 error:function(){
                                                         console.log('error');
                                                 },
                                                 success:function(data){
 							console.log("successed")
-                                                        $('#completed').append("ok!!!! ");
+                                                        $('#completed').append("ok!!!! ")
+							result2.textContent = data;
                                                 }
                                         });
 		 recognition.stop(); });
