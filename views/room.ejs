@@ -29,24 +29,33 @@
   <div id="video-grid"></div>
   <button id = "start">Start</button>
   <button id = "stop">Stop</button>
+  <textarea id = "result" rows="8" cols="80"></textarea> <br>
   <script type="text/javascript">
-			var startButton = document.getElementById('start');
-			var stopButton = document.getElementById('stop');
-			var resultElement = document.getElementById('result');
-
-			var recognition = new webkitSpeechRecognition();
-
-			recognition.lang = window.navigator.language;
-			recognition.interimResults = false;
-			recognition.continuous = true;
-
-			startButton.addEventListener('click', () => { recognition.start(); });
-			stopButton.addEventListener('click', () => { recognition.stop(); });
-
-			recognition.addEventListener('result', (event) => {
-				const result = event.results[event.results.length - 1][0].transcript;
-				resultElement.textContent = result;
-			});
+	  var startButton = document.getElementById('start');
+	  var stopButton = document.getElementById('stop');
+	  var resultElement = document.getElementById('result');
+	  var recognition = new webkitSpeechRecognition();
+	  recognition.lang = window.navigator.language;
+	  recognition.interimResults = false;
+	  recognition.continuous = true;
+	  startButton.addEventListener('click', () => { recognition.start(); });
+	  stopButton.addEventListener('click', () => { recognition.stop(); });
+	  recognition.addEventListener('result', (event) => {
+	  console.log(event.results[event.results.length - 1][0].confidence)
+		  if (event.results[event.results.length - 1][0].confidence >= 0.77){
+			  const result = event.results[event.results.length - 1][0].transcript;
+			  if (result.includes(conversationDictObject[conversationDictObject.length-1])){
+				  const idx = conversationDictObject.indexOf(conversationDictObject[conversationDictObject.length-1])
+				  if (idx > -1) conversationDictObject.splice(idx, 1)
+			  }
+			  if (result != conversationDictObject[conversationDictObject.length-1]){
+				  console.log(conversationDictObject.length-1)
+				  conversationDictObject.push(result)
+			          console.log(conversationDictObject)
+				  resultElement.textContent = result;
+			  } 
+		  } 
+	  });
  </script>
 </body>
 </html>
